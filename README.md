@@ -153,19 +153,56 @@ Hasta la próxima!!!
 
 ---
 
-## 📋 Rúbrica de evaluación
+## Rúbrica de evaluación
 
 ### Interfaz de usuario
-- [ ] La interfaz de usuario permite **añadir** (10%)  
-- [ ] La interfaz de usuario permite **visualizar todos los momentos** (10%)  
-- [ ] La interfaz de usuario permite **eliminar un momento** (10%)  
-- [ ] La interfaz de usuario permite **filtrar por emoción** (10%)  
-- [ ] La interfaz de usuario permite **filtrar por fecha** (10%)  
+- La interfaz de usuario permite **añadir** (10%)  
+- La interfaz de usuario permite **visualizar todos los momentos** (10%)  
+- La interfaz de usuario permite **eliminar un momento** (10%)  
+- La interfaz de usuario permite **filtrar por emoción** (10%)  
+- La interfaz de usuario permite **filtrar por fecha** (10%)  
 
 ### Persistencia de datos
-- [ ] Se hace un uso adecuado de la interfaz `List<E>` (10%)  
+- Se hace un uso adecuado de la interfaz `List<E>` (10%)  
 
 ### Código y buenas prácticas
-- [ ] Tests de cobertura mínimo un 70% (20%)  
-- [ ] El código está bien estructurado (10%)  
-- [ ] Correcta separación de responsabilidades (S de SOLID) (10%)
+- Tests de cobertura mínimo un 70% (20%)  
+- El código está bien estructurado (10%)  
+- Correcta separación de responsabilidades (S de SOLID) (10%)
+
+
+## Pre-requisitos
+
+Antes de ejecutar el proyecto, asegúrate de tener instalados los siguientes elementos:
+
+- [Java JDK 21](https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html)
+- [Apache Maven 3.9+](https://maven.apache.org/download.cgi)  
+- Un editor de código recomendado: [Visual Studio Code](https://code.visualstudio.com/)
+- Extensiones necesarias para VSCode: Debugger for Java, Extension Pack for Java, Language Support for Java, Maven for Java, Project Manager for Java, Test Runner for Java
+- Git (para clonar el repositorio)
+
+> Verifica la instalación ejecutando en la terminal:
+> ```bash
+> java -version
+> mvn -version
+> ```
+
+---
+
+##  Pasos para la instalación
+
+1. **Clonar el repositorio**
+   ```bash
+   git clone https://github.com/EfrenTC/inside-out
+
+
+---
+
+##  Diagrama de clases
+
+![alt text](insideout_diagrama.png)
+
+
+##  Test Coverage
+
+![alt text](image.png)
