@@ -15,8 +15,9 @@ public class Momento implements Serializable {
     private LocalDate fechaOcurrencia;
     private final LocalDateTime fechaCreacion;
     private LocalDateTime fechaModificacion;
+    private boolean esBueno; 
 
-    public Momento(int id, String titulo, String descripcion, Emocion emocion, LocalDate fechaOcurrencia) {
+    public Momento(int id, String titulo, String descripcion, Emocion emocion, LocalDate fechaOcurrencia, boolean esBueno) {
         this.id = id;
         this.titulo = titulo;
         this.descripcion = descripcion;
@@ -24,6 +25,7 @@ public class Momento implements Serializable {
         this.fechaOcurrencia = fechaOcurrencia;
         this.fechaCreacion = LocalDateTime.now();
         this.fechaModificacion = fechaCreacion;
+        this.esBueno = esBueno;
     }
 
     public int getId() { return id; }
@@ -33,6 +35,7 @@ public class Momento implements Serializable {
     public LocalDate getFechaOcurrencia() { return fechaOcurrencia; }
     public LocalDateTime getFechaCreacion() { return fechaCreacion; }
     public LocalDateTime getFechaModificacion() { return fechaModificacion; }
+    public boolean isEsBueno() { return esBueno; }
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
@@ -50,6 +53,10 @@ public class Momento implements Serializable {
         this.fechaOcurrencia = fechaOcurrencia;
         touch();
     }
+    public void setEsBueno(boolean esBueno) {
+        this.esBueno = esBueno;
+        touch();
+    }
 
     private void touch() {
         this.fechaModificacion = LocalDateTime.now();
@@ -57,8 +64,10 @@ public class Momento implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("%d. Ocurrió el: %s. Título: %s. Descripción: %s. Emoción: %s",
-                id, fechaOcurrencia, titulo, descripcion, emocion);
+        return String.format(
+            "%d. Ocurrió el: %s. Título: %s. Descripción: %s. Emoción: %s. Tipo: %s",
+            id, fechaOcurrencia, titulo, descripcion, emocion, esBueno ? "Bueno" : "Malo"
+        );
     }
 
     @Override
