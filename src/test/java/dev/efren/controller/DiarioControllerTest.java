@@ -31,7 +31,7 @@ class DiarioControllerTest {
 
     @Test
     void addAndGetById() {
-        Momento m = controller.addMomento("T", "D", Emocion.MIEDO, LocalDate.of(2023, 5, 2));
+        Momento m = controller.addMomento("T", "D", Emocion.MIEDO, LocalDate.of(2023, 5, 2), false);
         Optional<Momento> found = controller.getById(m.getId());
         assertTrue(found.isPresent());
         assertEquals("T", found.get().getTitulo());
@@ -39,9 +39,9 @@ class DiarioControllerTest {
 
     @Test
     void getByEmocionAndMonth() {
-        controller.addMomento("A", "D", Emocion.NOSTALGIA, LocalDate.of(2024, 3, 1));
-        controller.addMomento("B", "D", Emocion.NOSTALGIA, LocalDate.of(2024, 3, 5));
-        controller.addMomento("C", "D", Emocion.ALEGRIA, LocalDate.of(2024, 4, 1));
+        controller.addMomento("A", "D", Emocion.NOSTALGIA, LocalDate.of(2024, 3, 1), false);
+        controller.addMomento("B", "D", Emocion.NOSTALGIA, LocalDate.of(2024, 3, 5), false);
+        controller.addMomento("C", "D", Emocion.ALEGRIA, LocalDate.of(2024, 4, 1), false);
 
         List<Momento> listEm = controller.getByEmocion(Emocion.NOSTALGIA);
         assertEquals(2, listEm.size());
@@ -52,7 +52,7 @@ class DiarioControllerTest {
 
     @Test
     void deleteWorks() {
-        Momento m = controller.addMomento("T", "D", Emocion.IRA, LocalDate.now());
+        Momento m = controller.addMomento("T", "D", Emocion.IRA, LocalDate.now(), false);
         boolean ok = controller.delete(m.getId());
         assertTrue(ok);
         assertTrue(controller.getAll().isEmpty());

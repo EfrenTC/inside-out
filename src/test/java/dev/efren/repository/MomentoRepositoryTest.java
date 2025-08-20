@@ -28,7 +28,7 @@ class MomentoRepositoryTest {
 
     @Test
     void addAndFindAll() {
-        Momento m = repo.add("T", "D", Emocion.ALEGRIA, LocalDate.of(2024,1,1));
+        Momento m = repo.add("T", "D", Emocion.ALEGRIA, LocalDate.of(2024,1,1), true);
         List<Momento> all = repo.findAll();
         assertEquals(1, all.size());
         assertEquals(m.getId(), all.get(0).getId());
@@ -36,16 +36,16 @@ class MomentoRepositoryTest {
 
     @Test
     void deleteById() {
-        Momento m = repo.add("T", "D", Emocion.ALEGRIA, LocalDate.of(2024,1,1));
+        Momento m = repo.add("T", "D", Emocion.ALEGRIA, LocalDate.of(2024,1,1), true);
         assertTrue(repo.deleteById(m.getId()));
         assertTrue(repo.findAll().isEmpty());
     }
 
     @Test
     void findByEmocionAndByYearMonth() {
-        repo.add("A", "desc", Emocion.ALEGRIA, LocalDate.of(2024,1,1));
-        repo.add("B", "desc", Emocion.TRISTEZA, LocalDate.of(2024,1,15));
-        repo.add("C", "desc", Emocion.ALEGRIA, LocalDate.of(2024,2,1));
+        repo.add("A", "desc", Emocion.ALEGRIA, LocalDate.of(2024,1,1), true);
+        repo.add("B", "desc", Emocion.TRISTEZA, LocalDate.of(2024,1,15), true);
+        repo.add("C", "desc", Emocion.ALEGRIA, LocalDate.of(2024,2,1), true);
 
         List<Momento> alegr = repo.findByEmocion(Emocion.ALEGRIA);
         assertEquals(2, alegr.size());

@@ -68,7 +68,7 @@ class ConsoleViewTest {
 
     @Test
     void testDeleteInvalidAndValid() {
-        controller.addMomento("T", "D", Emocion.MIEDO, LocalDate.of(2024, 1, 1));
+        controller.addMomento("T", "D", Emocion.MIEDO, LocalDate.of(2024, 1, 1), false);
 
         String input = String.join(System.lineSeparator(),
                 "3",    
@@ -89,8 +89,8 @@ class ConsoleViewTest {
 
     @Test
     void testFilterByEmocionOnly() {
-        controller.addMomento("A", "desc", Emocion.ALEGRIA, LocalDate.of(2024, 1, 1));
-        controller.addMomento("B", "desc", Emocion.TRISTEZA, LocalDate.of(2024, 1, 5));
+        controller.addMomento("A", "desc", Emocion.ALEGRIA, LocalDate.of(2024, 1, 1), false);
+        controller.addMomento("B", "desc", Emocion.TRISTEZA, LocalDate.of(2024, 1, 5), false);
 
         String input = String.join(System.lineSeparator(),
                 "4",    
