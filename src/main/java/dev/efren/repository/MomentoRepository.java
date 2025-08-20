@@ -24,13 +24,25 @@ public class MomentoRepository {
         load();
     }
 
-    public synchronized Momento add(String titulo, String descripcion, Emocion emocion, LocalDate fechaOcurrencia) {
-        int id = idCounter.incrementAndGet();
-        Momento m = new Momento(id, titulo, descripcion, emocion, fechaOcurrencia);
-        momentos.add(m);
-        persist();
-        return m;
-    }
+   public synchronized Momento add(String titulo, String descripcion, Emocion emocion, LocalDate fechaOcurrencia, boolean esBueno) {
+    int id = idCounter.incrementAndGet();
+    Momento m = new Momento(id, titulo, descripcion, emocion, fechaOcurrencia, esBueno);
+    momentos.add(m);
+    persist();
+    return m;
+}
+
+public synchronized List<Momento> findBuenos() {
+    return momentos.stream()
+            .filter(Momento::isEsBueno)
+            .collect(Collectors.toList());
+}
+
+public synchronized List<Momento> findMalos() {
+    return momentos.stream()
+            .filter(m -> !m.isEsBueno())
+            .collect(Collectors.toList());
+}
 
     public synchronized List<Momento> findAll() {
         return new ArrayList<>(momentos);
@@ -88,4 +100,25 @@ public class MomentoRepository {
             storageFile.delete();
         }
     }
+
+    public synchronized void exportToCSV(String filePath) {
+    try (PrintWriter pw = new PrintWriter(new FileWriter(filePath))) {
+        pw.println("ID,Titulo,Descripcion,Emocion,Fecha,MomentoBueno");
+
+        for (Momento m : momentos) {
+            pw.printf("%d,\"%s\",\"%s\",%s,%s,%s%n",
+                    m.getId(),
+                    m.getTitulo().replace("\"", "\"\""), 
+                    m.getDescripcion().replace("\"", "\"\""),
+                    m.getEmocion(),
+                    m.getFechaOcurrencia(),
+                    m.isEsBueno() ? "Bueno" : "Malo"
+            );
+        }
+        System.out.println("Archivo CSV exportado correctamente en: " + filePath);
+    } catch (IOException e) {
+        System.err.println("Error al exportar CSV: " + e.getMessage());
+    }
+}
+
 }
