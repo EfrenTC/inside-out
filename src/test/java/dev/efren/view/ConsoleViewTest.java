@@ -47,13 +47,14 @@ class ConsoleViewTest {
     @Test
     void testAddAndViewAndExit() {
         String input = String.join(System.lineSeparator(),
-                "1",               
+                "1",
                 "Un día especial",
-                "01/05/2024",      
-                "Descripción...",  
-                "1",               
-                "2",              
-                "5"                
+                "01/05/2024",
+                "Descripción...",
+                "1",
+                "s",     
+                "2",
+                "7"
         ) + System.lineSeparator();
 
         provideInput(input);
@@ -71,11 +72,11 @@ class ConsoleViewTest {
         controller.addMomento("T", "D", Emocion.MIEDO, LocalDate.of(2024, 1, 1), false);
 
         String input = String.join(System.lineSeparator(),
-                "3",    
-                "abc",  
-                "3",    
+                "3",
+                "abc",   
+                "3",
                 "1",    
-                "5"     
+                "7"
         ) + System.lineSeparator();
 
         provideInput(input);
@@ -93,10 +94,10 @@ class ConsoleViewTest {
         controller.addMomento("B", "desc", Emocion.TRISTEZA, LocalDate.of(2024, 1, 5), false);
 
         String input = String.join(System.lineSeparator(),
-                "4",    
+                "4",   
                 "1",    
                 "1",    
-                "5"     
+                "7"
         ) + System.lineSeparator();
 
         provideInput(input);
@@ -104,14 +105,92 @@ class ConsoleViewTest {
         view.start();
 
         String output = getOutput();
-        assertTrue(output.contains("A")); 
+        assertTrue(output.contains("A"));
+    }
+
+    @Test
+    void testFilterByFecha() {
+        controller.addMomento("FechaTest", "desc", Emocion.NOSTALGIA, LocalDate.of(2024, 3, 15), true);
+
+        String input = String.join(System.lineSeparator(),
+                "4",
+                "2",           
+                "15/03/2024",  
+                "7"
+        ) + System.lineSeparator();
+
+        provideInput(input);
+        ConsoleView view = new ConsoleView(controller);
+        view.start();
+
+        String output = getOutput();
+        assertTrue(output.contains("FechaTest"));
+    }
+
+    @Test
+    void testFilterBuenosAndMalos() {
+        controller.addMomento("Bueno", "desc", Emocion.ALEGRIA, LocalDate.now(), true);
+        controller.addMomento("Malo", "desc", Emocion.TRISTEZA, LocalDate.now(), false);
+
+        String input = String.join(System.lineSeparator(),
+                "4",
+                "3",   
+                "4",   
+                "7"
+        ) + System.lineSeparator();
+
+        provideInput(input);
+        ConsoleView view = new ConsoleView(controller);
+        view.start();
+
+        String output = getOutput();
+        assertTrue(output.contains("Bueno"));
+        assertTrue(output.contains("Malo"));
+    }
+
+    @Test
+    void testExportCSVSuccess() {
+        controller.addMomento("CSV", "desc", Emocion.IRA, LocalDate.of(2024, 1, 1), false);
+
+        String input = String.join(System.lineSeparator(),
+                "5",
+                "test_console_export.csv",
+                "7"
+        ) + System.lineSeparator();
+
+        provideInput(input);
+        ConsoleView view = new ConsoleView(controller);
+        view.start();
+
+        String output = getOutput();
+        assertTrue(output.contains("Momentos exportados correctamente"));
+
+        File f = new File("test_console_export.csv");
+        assertTrue(f.exists());
+        f.delete();
+    }
+
+    @Test
+    void testExportCSVFailure() {
+        String input = String.join(System.lineSeparator(),
+                "5",
+                "/ruta/invalida/test.csv",
+                "7"
+        ) + System.lineSeparator();
+
+        provideInput(input);
+        ConsoleView view = new ConsoleView(controller);
+        view.start();
+
+        String output = getOutput();
+        assertTrue(output.contains("Error al exportar momentos."));
     }
 
     @Test
     void testInvalidMenuOption() {
         String input = String.join(System.lineSeparator(),
                 "9",  
-                "5"   
+                "7"  
         ) + System.lineSeparator();
 
         provideInput(input);
@@ -121,5 +200,29 @@ class ConsoleViewTest {
         String output = getOutput();
         assertTrue(output.contains("Opción no válida."));
         assertTrue(output.contains("Hasta la próxima!!!"));
+    }
+
+    @Test
+    void testInvalidDateAndEmotionRetry() {
+        String input = String.join(System.lineSeparator(),
+                "1",             
+                "TituloX",
+                "99/99/9999",    
+                "01/01/2024",    
+                "Descripcion...",
+                "99",            
+                "1",             
+                "n",             
+                "7"
+        ) + System.lineSeparator();
+
+        provideInput(input);
+        ConsoleView view = new ConsoleView(controller);
+        view.start();
+
+        String output = getOutput();
+        assertTrue(output.contains("Formato de fecha inválido"));
+        assertTrue(output.contains("Opción inválida, inténtalo de nuevo."));
+        assertTrue(output.contains("Momento vivído añadido correctamente."));
     }
 }
